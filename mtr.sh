@@ -31,19 +31,19 @@ echo ""
 
 case $answer in
         1)
-                xrandr --output eDP-1 --auto --output HDMI-2 --off;;
+                xrandr --output eDP-1 --auto --output DP-1 --off;;
 
         2)
-                xrandr --output eDP-1 --auto --output HDMI-2 --auto;;
+                xrandr --output eDP-1 --auto --output DP-1 --auto;;
 
         3)
-                xrandr --output eDP-1 --auto --output HDMI-2 --auto --right-of eDP-1;;
+                xrandr --output eDP-1 --auto --output DP-1 --auto --right-of eDP-1;;
 
         4)
-                xrandr --output eDP-1 --auto --output HDMI-2 --auto --left-of eDP-1;;
+                xrandr --output eDP-1 --auto --output DP-1 --auto --left-of eDP-1;;
 
         5)
-                xrandr --output eDP-1 --off --output HDMI-2 --auto;;
+                xrandr --output eDP-1 --off --output DP-1 --auto;;
 
         q|Q)
                 exit::
