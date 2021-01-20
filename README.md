@@ -1,4 +1,4 @@
-A quick script to choose how to use your external monitor in Linux and OpenBSD
+A quick script to choose how to use your external monitor in Linux and OpenBSD, written in BASH.
 
 Install with:
 
