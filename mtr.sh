@@ -8,13 +8,21 @@
 ##
 
 
+monitor1=$(xrandr | grep connected | grep -v disconnected | awk '{print $1}' | head -n 1)
+monitor2=$(xrandr | grep connected | grep -v disconnected | awk '{print $1}' | head -n 2 | tail -n 1)
+monitor3=$(xrandr | grep connected | grep -v disconnected | awk '{print $1}' | tail -n 1)
+
 if [ -e $HOME/.config/mtr/mtrsh ]
 then
     echo "OK"
 else
-    echo " *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*- "
-    echo " *-*-* You will need to edit this script before running. You can do so by choosing (x) in the field below *-*-* "
-    echo " *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*- "
+    echo " *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*- "
+    echo " *-*-* This script assumes a maximum of three monitors. The first time this script is run, it is recommended              *-*-* "
+    echo " *-*-* that you choose the x option to verify that three monitors are connected, and that xrandr identifies               *-*-* "
+    echo " *-*-* them correctly, and that you understand their order. xrandr will maintain the order that they're listed.           *-*-* "
+    echo " *-*-*                                                                                                                    *-*-* "
+    echo " *-*-* Review the script to ensure you understand how it works, and use at your own risk. No warranty included or implied *-*-* "
+    echo " *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*- "
 fi
 
 mkdir -m700 -p $HOME/.config/mtr/;
@@ -42,8 +50,8 @@ read -n 1 -p " == Which monitor Configuration do you want? ==
 5=Laptop with external monitor to the left, with big ass TV above
 6=Go back to settings in (4) after choosing the big ass TV in (5)
 9=External ONLY
-x=run xrandr to find your settings
-q=quit
+x=run xrandr to find your settings, and exit
+q=Do nothing and quit
 ==> ? " answer;
 
 clear;
@@ -54,25 +62,25 @@ echo ""
 
 case $answer in
 	1)
-		xrandr --output eDP-1 --auto --output DP-2-1 --off;;
+		xrandr --output $monitor1 --auto --output $monitor2 --off --output $monitor3 --off;;
 
 	2)
-		xrandr --output eDP-1 --auto --output DP-2-1 --auto;;
+		xrandr --output $monitor1 --auto --output $monitor2 --auto --output $monitor3 --off;;
 
 	3)
-		xrandr --output eDP-1 --auto --output DP-2-1 --auto --right-of eDP-1;;
+		xrandr --output $monitor1 --auto --output $monitor2 --auto --right-of $monitor1;;
 
 	4)
-		xrandr --output eDP-1 --auto --output DP-2-1 --auto --left-of eDP-1;;
+		xrandr --output $monitor1 --auto --output $monitor2 --auto --left-of $monitor1 --output $monitor3 --off;;
 
 	5)
-		xrandr --output eDP-1 --auto --output DP-2-1 --auto --left-of eDP-1 --output DP-2-3 --auto --above eDP-1;;
+		xrandr --output $monitor1 --auto --output $monitor2 --auto --left-of $monitor1 --output $monitor3 --auto --above $monitor1;;
 
 	6)
-		xrandr --output eDP-1 --auto --output DP-2-1 --auto --left-of eDP-1 --output DP-2-3 --off;;
+		xrandr --output $monitor1 --auto --output $monitor2 --auto --left-of $monitor1 --output $monitor3 --off;;
 
 	9)
-		xrandr --output eDP-1 --off --output DP-2-1 --auto;;
+		xrandr --output $monitor1 --off --output $monitor2 --auto;;
 
 	x)
 		echo " -- Here are your monitor resolution and device names -- ";
@@ -80,7 +88,7 @@ case $answer in
 		echo ""
 		xrandr | grep connected | grep -v disconnected;
 		echo ""
-		echo " -- Exiting ...   -- ";;
+		echo " -- Exiting ... ";;
 
 	 q|Q)
 		echo "Quitting..."
@@ -91,14 +99,6 @@ case $answer in
 
 
 esac
-
-
-
-
-
-
-
-
 
 
 
